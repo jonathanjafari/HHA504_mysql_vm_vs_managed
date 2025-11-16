@@ -220,6 +220,24 @@ All Managed SQL screenshots stored at:
 
 ---
 
+## Loom Video Demonstration
+
+A full walkthrough video demonstrating all required steps for this assignment — including VM setup, MariaDB installation, Cloud SQL configuration, SSL certificates, and Python connectivity tests — is available here:
+
+### 👉 [Loom Video](https://www.loom.com/share/368ebc7cbdfe4792a42ddba523645d06)
+
+### This video includes:
+* Creating and configuring a Google Compute Engine VM
+* Installing and testing MySQL/MariaDB
+* Running Python scripts to connect to VM MySQL
+* Creating a Google Cloud SQL Managed MySQL instance
+* Setting up Authorized Networks
+* Viewing SSL certificates
+* Running Python scripts with SSL to connect to Cloud SQL
+* Reviewing the full GitHub repository structure
+
+---
+
 ## 📄 Assignment Information
 
 **Student:** Jonathan Jafari  
