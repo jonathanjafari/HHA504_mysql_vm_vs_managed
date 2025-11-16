@@ -142,9 +142,6 @@ This page contains the downloadable SSL certificate files used for secure client
 **Screenshot:**  
 ![Managed Python Success](screenshots/managed/managed-python-success.png)
 
-Below is the exact working script used to connect to the Managed Cloud SQL instance.
-This version includes the simplified—but Cloud SQL–compatible—SSL parameter set that successfully resolved earlier connection issues.
-
 ---
 
 ## 🧪 Python Demo Scripts
@@ -161,7 +158,7 @@ Used to insert and read data from the MySQL database hosted on the VM.
 scripts/managed_demo.py
 ```
 
-This script was updated to resolve SSL connection issues with Google Cloud SQL. Google Cloud SQL enforces encrypted connections, but does not require full client certificates unless configured.
+Below is the exact working script used to connect to the Managed Cloud SQL instance. This version includes the simplified — but Cloud SQL–compatible — SSL parameter set that resolved the earlier connection issues.
 
 #### Final Working Managed SQL Script
 ```python
