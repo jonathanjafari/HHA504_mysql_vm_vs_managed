@@ -142,30 +142,74 @@ This page contains the downloadable SSL certificate files used for secure client
 **Screenshot:**  
 ![Managed Python Success](screenshots/managed/managed-python-success.png)
 
+Below is the exact working script used to connect to the Managed Cloud SQL instance.
+This version includes the simplified—but Cloud SQL–compatible—SSL parameter set that successfully resolved earlier connection issues.
+
 ---
 
-# 🧪 Python Demo Scripts
+## 🧪 Python Demo Scripts
 
-## **VM Demo**
+### VM Demo
 ```
 scripts/vm_demo.py
 ```
 
-## **Managed SQL Demo**
+Used to insert and read data from the MySQL database hosted on the VM.
+
+### Managed SQL Demo
 ```
 scripts/managed_demo.py
 ```
 
-Includes SSL parameters to connect to Cloud SQL:
+This script was updated to resolve SSL connection issues with Google Cloud SQL. Google Cloud SQL enforces encrypted connections, but does not require full client certificates unless configured.
 
+#### Final Working Managed SQL Script
 ```python
-ssl_args = {
-    "ssl": {
-        "ca": "ssl/server-ca.pem",
-        "cert": "ssl/client-cert.pem",
-        "key": "ssl/client-key.pem"
-    }
-}
+import os
+import pandas as pd
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def main():
+    host = os.getenv("MAN_DB_HOST")
+    port = os.getenv("MAN_DB_PORT")
+    user = os.getenv("MAN_DB_USER")
+    pw   = os.getenv("MAN_DB_PASS")
+    db   = os.getenv("MAN_DB_NAME")
+
+    # Add SSL parameters for Google Cloud SQL
+    url = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
+    
+    # Create engine with SSL
+    engine = create_engine(
+        url,
+        connect_args={
+            'ssl': {'ssl_disabled': False}
+        }
+    )
+
+    df = pd.DataFrame([
+        {"visit_id": 1, "reason": "Checkup"},
+        {"visit_id": 2, "reason": "Flu"},
+        {"visit_id": 3, "reason": "Chest pain"}
+    ])
+
+    df.to_sql("visits", engine, if_exists="replace", index=False)
+
+    out = pd.read_sql("SELECT * FROM visits", engine)
+    print(out)
+
+if __name__ == "__main__":
+    main()
+```
+
+### 🔐 Updated SSL Explanation
+
+Google Cloud SQL uses SSL for all external connections. Since this instance does not require client certificates, SQLAlchemy only needs:
+```python
+connect_args={'ssl': {'ssl_disabled': False}}
 ```
 
 ---
