@@ -1,0 +1,2 @@
+# Keep local database configuration out of Git.
+/.env
